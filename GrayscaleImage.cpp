@@ -21,6 +21,19 @@ GrayscaleImage::GrayscaleImage(const char* filename) {
     }
 
     // TODO: Your code goes here.
+
+    data = new int*[height];
+    for (int i = 0; i < height; ++i) {
+        data[i] = new int[width];
+    }
+
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            // convert unsigned char to int
+            data[y][x] = static_cast<int>(image[y * width + x]);
+        }
+    }
+
     // Dynamically allocate memory for a 2D matrix based on the given dimensions.
     // Fill the matrix with pixel values from the image
 
@@ -31,6 +44,17 @@ GrayscaleImage::GrayscaleImage(const char* filename) {
 // Constructor: initialize from a pre-existing data matrix
 GrayscaleImage::GrayscaleImage(int** inputData, int h, int w) {
     // TODO: Your code goes here.
+
+    data = new int*[h];
+    for (int i = 0; i < h; ++i) {
+        data[i] = new int[w];
+    }
+
+    for(int y = 0; y < h; ++y) {
+        for(int x = 0; x < w; ++x) {
+            data[y][x] = inputData[y][x];
+        }
+    }
     // Initialize the image with a pre-existing data matrix by copying the values.
     // Don't forget to dynamically allocate memory for the matrix.
 }
@@ -38,12 +62,29 @@ GrayscaleImage::GrayscaleImage(int** inputData, int h, int w) {
 // Constructor to create a blank image of given width and height
 GrayscaleImage::GrayscaleImage(int w, int h) : width(w), height(h) {
     // TODO: Your code goes here.
+    data = new int*[height];
+    for (int i = 0; i < height; ++i) {
+        data[i] = new int[width];
+    }
     // Just dynamically allocate the memory for the new matrix.
 }
 
 // Copy constructor
 GrayscaleImage::GrayscaleImage(const GrayscaleImage& other) {
     // TODO: Your code goes here.
+
+    data = new int*[other.height];
+
+    for(int i = 0; i < other.height; ++i) {
+        data[i] = new int[other.width];
+    }
+
+    for(int y = 0; y < other.height; ++y) {
+        for(int x = 0; x < other.width; ++x) {
+            data[y][x] = other.data[y][x];
+        }
+    }
+
     // Copy constructor: dynamically allocate memory and 
     // copy pixel values from another image.
 }
@@ -51,6 +92,13 @@ GrayscaleImage::GrayscaleImage(const GrayscaleImage& other) {
 // Destructor
 GrayscaleImage::~GrayscaleImage() {
     // TODO: Your code goes here.
+
+    for (int i = 0; i < height; ++i) {
+        delete[] data[i];
+    }
+
+    delete[] data;
+
     // Destructor: deallocate memory for the matrix.
 }
 
