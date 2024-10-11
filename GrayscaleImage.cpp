@@ -66,6 +66,14 @@ GrayscaleImage::GrayscaleImage(int w, int h) : width(w), height(h) {
     for (int i = 0; i < height; ++i) {
         data[i] = new int[width];
     }
+
+    // initialize a blank image
+    for(int y = 0; y < height; ++y) {
+        for(int x = 0; x < width; ++x) {
+            data[y][x] = 0;
+        }
+    }
+
     // Just dynamically allocate the memory for the new matrix.
 }
 
@@ -73,15 +81,15 @@ GrayscaleImage::GrayscaleImage(int w, int h) : width(w), height(h) {
 GrayscaleImage::GrayscaleImage(const GrayscaleImage& other) {
     // TODO: Your code goes here.
 
-    data = new int*[other.height];
+    data = new int*[other.get_height()];
 
-    for(int i = 0; i < other.height; ++i) {
-        data[i] = new int[other.width];
+    for(int i = 0; i < other.get_height(); ++i) {
+        data[i] = new int[other.get_width()];
     }
 
-    for(int y = 0; y < other.height; ++y) {
-        for(int x = 0; x < other.width; ++x) {
-            data[y][x] = other.data[y][x];
+    for(int y = 0; y < other.get_height(); ++y) {
+        for(int x = 0; x < other.get_width(); ++x) {
+            data[y][x] = other.get_pixel(y,x);
         }
     }
 
@@ -105,13 +113,13 @@ GrayscaleImage::~GrayscaleImage() {
 // Equality operator
 bool GrayscaleImage::operator==(const GrayscaleImage& other) const {
     // TODO: Your code goes here.
-    if(height != other.height || width != other.width) {
+    if(height != other.get_height() || width != other.get_width()) {
         return false;
     }
 
     for(int y = 0; y < height; ++y) {
         for(int x = 0; x < width; ++x) {
-            if(data[y][x] != other.data[y][x]) {
+            if(data[y][x] != other.get_pixel(y,x)) {
                 return false;
             }
         }
@@ -126,10 +134,17 @@ bool GrayscaleImage::operator==(const GrayscaleImage& other) const {
 GrayscaleImage GrayscaleImage::operator+(const GrayscaleImage& other) const {
     // Create a new image for the result
     GrayscaleImage result(width, height);
-    
+
     // TODO: Your code goes here.
     // Add two images' pixel values and return a new image, clamping the results.
 
+    // add pixels from image other and data and store the results in result image
+    for(int y = 0; y < height; ++y) {
+        for(int x = 0; x < width; ++x) {
+            int value = data[y][x] + other.get_pixel(y,x);
+            result.set_pixel(y,x,(value > 255) ? 255 : value);
+        }
+    }
     return result;
 }
 
@@ -140,7 +155,12 @@ GrayscaleImage GrayscaleImage::operator-(const GrayscaleImage& other) const {
     
     // TODO: Your code goes here.
     // Subtract pixel values of two images and return a new image, clamping the results.
-
+    for(int y = 0; y < height; ++y) {
+        for(int x = 0; x < width; ++x) {
+            int value = data[y][x] - other.get_pixel(y,x);
+            result.set_pixel(y,x,(value < 0) ? 0 : value);
+        }
+    }
     return result;
 }
 
