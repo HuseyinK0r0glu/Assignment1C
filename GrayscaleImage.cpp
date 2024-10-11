@@ -79,7 +79,10 @@ GrayscaleImage::GrayscaleImage(int w, int h) : width(w), height(h) {
 
 // Copy constructor
 GrayscaleImage::GrayscaleImage(const GrayscaleImage& other) {
+
     // TODO: Your code goes here.
+    // Copy constructor: dynamically allocate memory and
+    // copy pixel values from another image.
 
     data = new int*[other.get_height()];
 
@@ -92,9 +95,6 @@ GrayscaleImage::GrayscaleImage(const GrayscaleImage& other) {
             data[y][x] = other.get_pixel(y,x);
         }
     }
-
-    // Copy constructor: dynamically allocate memory and 
-    // copy pixel values from another image.
 }
 
 // Destructor
@@ -174,6 +174,7 @@ void GrayscaleImage::set_pixel(int row, int col, int value) {
     data[row][col] = value;
 }
 
+/*
 // Function to save the image to a PNG file
 void GrayscaleImage::save_to_file(const char* filename) const {
     // Create a buffer to hold the image data in the format stb_image_write expects
@@ -188,6 +189,41 @@ void GrayscaleImage::save_to_file(const char* filename) const {
 
     // Write the buffer to a PNG file
     if (!stbi_write_png(filename, width, height, 1, imageBuffer, width)) {
+        std::cerr << "Error: Could not save image to file " << filename << std::endl;
+    }
+
+    // Clean up the allocated buffer
+    delete[] imageBuffer;
+}
+*/
+// Function to save the image to a PNG file
+void GrayscaleImage::save_to_file(const char* filename) const {
+    // Validate filename
+    if (filename == nullptr) {
+        std::cerr << "Error: Filename is null!" << std::endl;
+        return;
+    }
+
+    // Create a buffer to hold the image data in the format stb_image_write expects
+    unsigned char* imageBuffer = new unsigned char[width * height];
+
+    // Fill the buffer with pixel data (convert int to unsigned char)
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            // Ensure pixel value is within the 0-255 range (grayscale values)
+            int pixelValue = data[i][j];
+            if (pixelValue < 0) pixelValue = 0;
+            if (pixelValue > 255) pixelValue = 255;
+
+            // Convert to unsigned char
+            imageBuffer[i * width + j] = static_cast<unsigned char>(pixelValue);
+        }
+    }
+
+    // Write the buffer to a PNG file using the stb_image_write library
+    int stride_in_bytes = width; // Stride is the width in pixels (1 byte per pixel for grayscale)
+
+    if (!stbi_write_png(filename, width, height, 1, imageBuffer, stride_in_bytes)) {
         std::cerr << "Error: Could not save image to file " << filename << std::endl;
     }
 

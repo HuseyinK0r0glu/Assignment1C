@@ -9,8 +9,23 @@
 void Filter::apply_mean_filter(GrayscaleImage& image, int kernelSize) {
     // TODO: Your code goes here.
     // 1. Copy the original image for reference.
+    GrayscaleImage copyImage(image);
     // 2. For each pixel, calculate the mean value of its neighbors using a kernel.
     // 3. Update each pixel with the computed mean.
+    for(int y = 0; y < copyImage.get_height(); ++y) {
+        for(int x = 0; x < copyImage.get_width(); ++x) {
+            // mean filter operation
+            int sum = 0;
+            for(int i = y-(kernelSize/2);i<=y+(kernelSize/2);++i) {
+                for(int j = x-(kernelSize/2);j<=x+(kernelSize/2);++j) {
+                    if(i >= 0 && i < copyImage.get_height() && j>=0 && j < copyImage.get_width()) {
+                        sum += copyImage.get_pixel(i,j);
+                    }
+                }
+            }
+            image.set_pixel(y, x, static_cast<int>(std::floor(sum / (kernelSize * kernelSize))));
+        }
+    }
 }
 
 // Gaussian Smoothing Filter
