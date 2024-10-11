@@ -105,9 +105,21 @@ GrayscaleImage::~GrayscaleImage() {
 // Equality operator
 bool GrayscaleImage::operator==(const GrayscaleImage& other) const {
     // TODO: Your code goes here.
+    if(height != other.height || width != other.width) {
+        return false;
+    }
+
+    for(int y = 0; y < height; ++y) {
+        for(int x = 0; x < width; ++x) {
+            if(data[y][x] != other.data[y][x]) {
+                return false;
+            }
+        }
+    }
+
     // Check if two images have the same dimensions and pixel values.
     // If they do, return true.
-    return false;
+    return true;
 }
 
 // Addition operator
