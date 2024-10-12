@@ -9,7 +9,7 @@
 
 
 // Constructor: load from a file
-GrayscaleImage::GrayscaleImage(const char* filename) {
+GrayscaleImage::GrayscaleImage(const char* filename){
 
     // Image loading code using stbi
     int channels;
@@ -21,6 +21,15 @@ GrayscaleImage::GrayscaleImage(const char* filename) {
     }
 
     // TODO: Your code goes here.
+
+    // Dynamically allocate memory for a 2D matrix based on the given dimensions.
+    // Fill the matrix with pixel values from the image
+
+    /*
+    ????????????????
+    this->width = width;
+    this->height = height;
+    */
 
     data = new int*[height];
     for (int i = 0; i < height; ++i) {
@@ -34,9 +43,6 @@ GrayscaleImage::GrayscaleImage(const char* filename) {
         }
     }
 
-    // Dynamically allocate memory for a 2D matrix based on the given dimensions.
-    // Fill the matrix with pixel values from the image
-
     // Free the dynamically allocated memory of stbi image
     stbi_image_free(image);
 }
@@ -45,13 +51,16 @@ GrayscaleImage::GrayscaleImage(const char* filename) {
 GrayscaleImage::GrayscaleImage(int** inputData, int h, int w) {
     // TODO: Your code goes here.
 
-    data = new int*[h];
+    height = h;
+    width = w;
+
+    data = new int*[height];
     for (int i = 0; i < h; ++i) {
-        data[i] = new int[w];
+        data[i] = new int[width];
     }
 
-    for(int y = 0; y < h; ++y) {
-        for(int x = 0; x < w; ++x) {
+    for(int y = 0; y < height; ++y) {
+        for(int x = 0; x < width; ++x) {
             data[y][x] = inputData[y][x];
         }
     }
@@ -84,14 +93,17 @@ GrayscaleImage::GrayscaleImage(const GrayscaleImage& other) {
     // Copy constructor: dynamically allocate memory and
     // copy pixel values from another image.
 
-    data = new int*[other.get_height()];
+    height = other.get_height();
+    width = other.get_width();
 
-    for(int i = 0; i < other.get_height(); ++i) {
-        data[i] = new int[other.get_width()];
+    data = new int*[height];
+
+    for(int i = 0; i < height; ++i) {
+        data[i] = new int[width];
     }
 
-    for(int y = 0; y < other.get_height(); ++y) {
-        for(int x = 0; x < other.get_width(); ++x) {
+    for(int y = 0; y < height; ++y) {
+        for(int x = 0; x < width; ++x) {
             data[y][x] = other.get_pixel(y,x);
         }
     }
@@ -113,6 +125,9 @@ GrayscaleImage::~GrayscaleImage() {
 // Equality operator
 bool GrayscaleImage::operator==(const GrayscaleImage& other) const {
     // TODO: Your code goes here.
+    // Check if two images have the same dimensions and pixel values.
+    // If they do, return true.
+
     if(height != other.get_height() || width != other.get_width()) {
         return false;
     }
@@ -124,9 +139,6 @@ bool GrayscaleImage::operator==(const GrayscaleImage& other) const {
             }
         }
     }
-
-    // Check if two images have the same dimensions and pixel values.
-    // If they do, return true.
     return true;
 }
 
@@ -174,7 +186,7 @@ void GrayscaleImage::set_pixel(int row, int col, int value) {
     data[row][col] = value;
 }
 
-/*
+
 // Function to save the image to a PNG file
 void GrayscaleImage::save_to_file(const char* filename) const {
     // Create a buffer to hold the image data in the format stb_image_write expects
@@ -189,41 +201,6 @@ void GrayscaleImage::save_to_file(const char* filename) const {
 
     // Write the buffer to a PNG file
     if (!stbi_write_png(filename, width, height, 1, imageBuffer, width)) {
-        std::cerr << "Error: Could not save image to file " << filename << std::endl;
-    }
-
-    // Clean up the allocated buffer
-    delete[] imageBuffer;
-}
-*/
-// Function to save the image to a PNG file
-void GrayscaleImage::save_to_file(const char* filename) const {
-    // Validate filename
-    if (filename == nullptr) {
-        std::cerr << "Error: Filename is null!" << std::endl;
-        return;
-    }
-
-    // Create a buffer to hold the image data in the format stb_image_write expects
-    unsigned char* imageBuffer = new unsigned char[width * height];
-
-    // Fill the buffer with pixel data (convert int to unsigned char)
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            // Ensure pixel value is within the 0-255 range (grayscale values)
-            int pixelValue = data[i][j];
-            if (pixelValue < 0) pixelValue = 0;
-            if (pixelValue > 255) pixelValue = 255;
-
-            // Convert to unsigned char
-            imageBuffer[i * width + j] = static_cast<unsigned char>(pixelValue);
-        }
-    }
-
-    // Write the buffer to a PNG file using the stb_image_write library
-    int stride_in_bytes = width; // Stride is the width in pixels (1 byte per pixel for grayscale)
-
-    if (!stbi_write_png(filename, width, height, 1, imageBuffer, stride_in_bytes)) {
         std::cerr << "Error: Could not save image to file " << filename << std::endl;
     }
 

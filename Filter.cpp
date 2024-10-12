@@ -12,6 +12,10 @@ void Filter::apply_mean_filter(GrayscaleImage& image, int kernelSize) {
     GrayscaleImage copyImage(image);
     // 2. For each pixel, calculate the mean value of its neighbors using a kernel.
     // 3. Update each pixel with the computed mean.
+
+
+    //??????????????????????????????????
+
     for(int y = 0; y < copyImage.get_height(); ++y) {
         for(int x = 0; x < copyImage.get_width(); ++x) {
             // mean filter operation
