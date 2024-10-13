@@ -80,6 +80,24 @@ void SecretImage::save_back(const GrayscaleImage& image) {
     // TODO: Your code goes here.
     // Update the lower and upper triangular matrices 
     // based on the GrayscaleImage given as the parameter.
+    int upperCount = 0;
+    int lowerCount = 0;
+
+    for(int y = 0;y<image.get_height();++y) {
+        for(int x = 0;x<image.get_width();++x) {
+
+            if(y <= x) {
+                // upper triangular array
+                upper_triangular[upperCount] = image.get_pixel(y,x);
+                upperCount++;
+            } else {
+                // lower triangular array
+                lower_triangular[lowerCount] = image.get_pixel(y,x);
+                lowerCount++;
+            }
+
+        }
+    }
 }
 
 // Save the upper and lower triangular arrays to a file
