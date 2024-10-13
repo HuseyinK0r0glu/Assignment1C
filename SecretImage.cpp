@@ -48,6 +48,10 @@ SecretImage::~SecretImage() {
     // TODO: Your code goes here.
     // Simply free the dynamically allocated memory
     // for the upper and lower triangular matrices.
+
+    delete[] upper_triangular;
+    delete[] lower_triangular;
+
 }
 
 // Reconstructs and returns the full image from upper and lower triangular matrices.
