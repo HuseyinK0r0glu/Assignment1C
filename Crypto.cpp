@@ -1,4 +1,7 @@
 #include "Crypto.h"
+
+#include <valarray>
+
 #include "GrayscaleImage.h"
 
 
@@ -25,8 +28,25 @@ std::string Crypto::decrypt_message(const std::vector<int>& LSB_array) {
     // TODO: Your code goes here.
 
     // 1. Verify that the LSB array size is a multiple of 7, else throw an error.
+    if(LSB_array.size() % 7 != 0) {
+        throw std::invalid_argument("LSB must be a multiple of 7");
+    }
+
     // 2. Convert each group of 7 bits into an ASCII character.
     // 3. Collect the characters to form the decrypted message.
+
+    for(int i = 0; i < LSB_array.size(); i += 7) {
+
+        int value = 0;
+        int exp = 0;
+
+        for(int j = 6; j>=0 ; j--) {
+            value += static_cast<int>(LSB_array[i+j] * pow(2, exp++));
+        }
+
+        message += static_cast<char>(value);
+    }
+
     // 4. Return the resulting message.
 
     return message;
@@ -40,6 +60,16 @@ std::vector<int> Crypto::encrypt_message(const std::string& message) {
     // 1. Convert each character of the message into a 7-bit binary representation.
     //    You can use std::bitset.
     // 2. Collect the bits into the LSB array.
+
+    for(char ch : message) {
+        std::bitset<7> bits(static_cast<long>(ch));
+
+        for(int j = 6; j >= 0; j--) {
+            LSB_array.push_back(bits[j]);
+        }
+
+    }
+
     // 3. Return the array of bits.
 
     return LSB_array;
