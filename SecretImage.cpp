@@ -5,7 +5,34 @@
 SecretImage::SecretImage(const GrayscaleImage& image) {
     // TODO: Your code goes here.
     // 1. Dynamically allocate the memory for the upper and lower triangular matrices.
+
+    int upSize = image.get_width() * (image.get_width() + 1) / 2;
+    int lowSize = image.get_width() * (image.get_width() - 1) / 2;
+
+    upper_triangular = new int[upSize];
+    lower_triangular = new int[lowSize];
+
     // 2. Fill both matrices with the pixels from the GrayscaleImage.
+
+    int upperCount = 0;
+    int lowerCount = 0;
+
+    for(int y = 0;y<image.get_height();++y) {
+        for(int x = 0;x<image.get_width();++x) {
+
+            if(y <= x) {
+                // upper triangular array
+                upper_triangular[upperCount] = image.get_pixel(y,x);
+                upperCount++;
+            } else {
+                // lower triangular array
+                lower_triangular[lowerCount] = image.get_pixel(y,x);
+                lowerCount++;
+            }
+
+        }
+    }
+
 }
 
 // Constructor: instantiate based on data read from file
