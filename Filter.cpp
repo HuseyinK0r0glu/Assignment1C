@@ -32,9 +32,57 @@ void Filter::apply_mean_filter(GrayscaleImage& image, int kernelSize) {
 void Filter::apply_gaussian_smoothing(GrayscaleImage& image, int kernelSize, double sigma) {
     // TODO: Your code goes here.
     // 1. Create a Gaussian kernel based on the given sigma value.
+
+    std::vector<std::vector<double> > kernel(kernelSize, std::vector<double>(kernelSize));
+    double sum = 0.0;
+    double pi = 3.14;
+    for(int i = 0;i<kernelSize;++i) {
+        for(int j = 0;j<kernelSize;++j) {
+            int xDist = j - kernelSize / 2;
+            int yDist = i - kernelSize / 2;
+            double exponent = -( (xDist * xDist + yDist * yDist) / (2 * sigma * sigma ));
+            double weight = (1.0 / (2 * pi * sigma * sigma)) * exp(exponent);
+            kernel[i][j] = weight;
+            sum += kernel[i][j];
+        }
+    }
+
     // 2. Normalize the kernel to ensure it sums to 1.
+    for(int i = 0;i<kernelSize;++i) {
+        for(int j = 0;j<kernelSize;++j) {
+            if(sum != 0.0) {
+                kernel[i][j] /= sum;
+            }
+        }
+    }
+
     // 3. For each pixel, compute the weighted sum using the kernel.
     // 4. Update the pixel values with the smoothed results.
+
+    GrayscaleImage copyImage(image);
+    for(int y = 0; y < copyImage.get_height(); ++y) {
+        for(int x = 0; x < copyImage.get_width(); ++x) {
+            // gaussian filter operation
+            double sum = 0;
+            for(int i = 0;i<kernelSize;++i) {
+                for(int j = 0;j<kernelSize;++j) {
+                    int xDist = x + (j - kernelSize / 2);
+                    int yDist = y + (i - kernelSize / 2);
+                    if(xDist >= 0 && xDist < copyImage.get_width() && yDist >= 0 && yDist < copyImage.get_height()) {
+                        sum += copyImage.get_pixel(yDist,xDist) * kernel[i][j];
+                    }
+                }
+            }
+            if(sum < 0.0) {
+                image.set_pixel(y, x,0);
+                continue;
+            }if(sum > 255.0) {
+                image.set_pixel(y, x, 255);
+                continue;
+            }
+            image.set_pixel(y, x, static_cast<int>(std::floor(sum)));
+        }
+    }
 }
 
 // Unsharp Masking Filter
