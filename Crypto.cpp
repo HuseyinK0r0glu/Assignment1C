@@ -5,21 +5,39 @@
 #include "GrayscaleImage.h"
 
 
-// Extract the least significant bits (LSBs) from SecretImage, calculating x, y based on message length
-std::vector<int> Crypto::extract_LSBits(SecretImage& secret_image, int message_length) {
-    std::vector<int> LSB_array;
-    // TODO: Your code goes here.
+    // Extract the least significant bits (LSBs) from SecretImage, calculating x, y based on message length
+    std::vector<int> Crypto::extract_LSBits(SecretImage& secret_image, int message_length) {
+        std::vector<int> LSB_array;
+        // TODO: Your code goes here.
 
-    // 1. Reconstruct the SecretImage to a GrayscaleImage.
-    // 2. Calculate the image dimensions.
-    // 3. Determine the total bits required based on message length.
-    // 4. Ensure the image has enough pixels; if not, throw an error.
-    // 5. Calculate the starting pixel from the message_length knowing that  
-    //    the last LSB to extract is in the last pixel of the image.
-    // 6. Extract LSBs from the image pixels and return the result.
+        // 1. Reconstruct the SecretImage to a GrayscaleImage.
+        GrayscaleImage image = secret_image.reconstruct();
+        // 2. Calculate the image dimensions.
+        int width = image.get_width();
+        int height = image.get_height();
+        // 3. Determine the total bits required based on message length.
+        int bits = message_length * 7;
+        int total = width * height ;
+        // 4. Ensure the image has enough pixels; if not, throw an error.
+        if(total < bits) {
+            throw std::invalid_argument("The message length is too big");
+        }
+        // 5. Calculate the starting pixel from the message_length knowing that
+        //    the last LSB to extract is in the last pixel of the image.
+        int start = total - bits;
 
-    return LSB_array;
-}
+        for(int i = start;i<total;i++) {
+            int y = i / width;
+            int x = i % width;
+
+            int pixel = image.get_pixel(y,x);
+            LSB_array.push_back(pixel & 1);
+        }
+
+        // 6. Extract LSBs from the image pixels and return the result.
+
+        return LSB_array;
+    }
 
 
 // Decrypt message by converting LSB array into ASCII characters
