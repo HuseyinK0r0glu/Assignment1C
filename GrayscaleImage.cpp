@@ -185,7 +185,7 @@ void GrayscaleImage::set_pixel(int row, int col, int value) {
 // Function to save the image to a PNG file
 void GrayscaleImage::save_to_file(const char* filename) const {
     // Create a buffer to hold the image data in the format stb_image_write expects
-    unsigned char* imageBuffer = new unsigned char[width * height];
+    auto* imageBuffer = new unsigned char[width * height];
 
     // Fill the buffer with pixel data (convert int to unsigned char)
     for (int i = 0; i < height; ++i) {
