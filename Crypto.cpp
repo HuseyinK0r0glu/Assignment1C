@@ -107,7 +107,7 @@ SecretImage Crypto::embed_LSBits(GrayscaleImage& image, const std::vector<int>& 
         if(total < LSB_array.size()) {
             throw std::invalid_argument("The message length is too big");
         }
-    // 2. Find the starting pixel based on the message length knowing that  
+    // 2. Find the starting pixel based on the message length knowing that
     //    the last LSB to embed should end up in the last pixel of the image.
         int start = static_cast<int>(total - LSB_array.size());
     // 3. Iterate over the image pixels, embedding LSBs from the array.
@@ -122,7 +122,7 @@ SecretImage Crypto::embed_LSBits(GrayscaleImage& image, const std::vector<int>& 
 
             image.set_pixel(y,x,pixel);
         }
-    // 4. Return a SecretImage object constructed from the given GrayscaleImage 
+    // 4. Return a SecretImage object constructed from the given GrayscaleImage
     //    with the embedded message.
 
     SecretImage secret_image(image);

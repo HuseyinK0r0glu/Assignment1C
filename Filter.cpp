@@ -35,7 +35,7 @@ void Filter::apply_gaussian_smoothing(GrayscaleImage& image, int kernelSize, dou
 
     std::vector<std::vector<double> > kernel(kernelSize, std::vector<double>(kernelSize));
     double sum = 0.0;
-    double pi = 3.14;
+    double pi = 3.14159265358979323846;
     for(int i = 0;i<kernelSize;++i) {
         for(int j = 0;j<kernelSize;++j) {
             int xDist = j - kernelSize / 2;

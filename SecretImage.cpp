@@ -189,6 +189,10 @@ SecretImage SecretImage::load_from_file(const std::string& filename) {
     //    width, height, and triangular arrays.
     file.close();
     SecretImage secretImage(width, height, upper, lower);
+
+    delete[] upper;
+    delete[] lower;
+
     return secretImage;
 }
 
