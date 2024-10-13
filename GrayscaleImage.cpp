@@ -25,12 +25,6 @@ GrayscaleImage::GrayscaleImage(const char* filename){
     // Dynamically allocate memory for a 2D matrix based on the given dimensions.
     // Fill the matrix with pixel values from the image
 
-    /*
-    ????????????????
-    this->width = width;
-    this->height = height;
-    */
-
     data = new int*[height];
     for (int i = 0; i < height; ++i) {
         data[i] = new int[width];
@@ -50,7 +44,8 @@ GrayscaleImage::GrayscaleImage(const char* filename){
 // Constructor: initialize from a pre-existing data matrix
 GrayscaleImage::GrayscaleImage(int** inputData, int h, int w) {
     // TODO: Your code goes here.
-
+    // Initialize the image with a pre-existing data matrix by copying the values.
+    // Don't forget to dynamically allocate memory for the matrix.
     height = h;
     width = w;
 
@@ -64,13 +59,13 @@ GrayscaleImage::GrayscaleImage(int** inputData, int h, int w) {
             data[y][x] = inputData[y][x];
         }
     }
-    // Initialize the image with a pre-existing data matrix by copying the values.
-    // Don't forget to dynamically allocate memory for the matrix.
+
 }
 
 // Constructor to create a blank image of given width and height
 GrayscaleImage::GrayscaleImage(int w, int h) : width(w), height(h) {
     // TODO: Your code goes here.
+    // Just dynamically allocate the memory for the new matrix.
     data = new int*[height];
     for (int i = 0; i < height; ++i) {
         data[i] = new int[width];
@@ -83,7 +78,7 @@ GrayscaleImage::GrayscaleImage(int w, int h) : width(w), height(h) {
         }
     }
 
-    // Just dynamically allocate the memory for the new matrix.
+
 }
 
 // Copy constructor
