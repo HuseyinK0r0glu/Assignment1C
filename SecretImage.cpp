@@ -54,7 +54,23 @@ SecretImage::~SecretImage() {
 GrayscaleImage SecretImage::reconstruct() const {
     GrayscaleImage image(width, height);
 
+    int upperCount = 0;
+    int lowerCount = 0;
+
     // TODO: Your code goes here.
+    for(int y = 0;y<image.get_height();++y) {
+        for(int x = 0;x<image.get_width();++x) {
+
+            if(y <= x) {
+                image.set_pixel(y,x,upper_triangular[upperCount]);
+                upperCount++;
+            }else {
+                image.set_pixel(y,x,lower_triangular[lowerCount]);
+                lowerCount++;
+            }
+
+        }
+    }
 
     return image;
 }
