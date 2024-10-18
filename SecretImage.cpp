@@ -57,6 +57,10 @@ SecretImage::SecretImage(int w, int h, int * upper, int * lower) {
     for(int i = 0;i<width * (width - 1) / 2;++i) {
         lower_triangular[i] = lower[i];
     }
+
+    delete[] upper;
+    delete[] lower;
+
 }
 
 
@@ -189,9 +193,6 @@ SecretImage SecretImage::load_from_file(const std::string& filename) {
     //    width, height, and triangular arrays.
     file.close();
     SecretImage secretImage(width, height, upper, lower);
-
-    delete[] upper;
-    delete[] lower;
 
     return secretImage;
 }
