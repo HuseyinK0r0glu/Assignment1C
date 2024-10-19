@@ -108,13 +108,13 @@ GrayscaleImage::GrayscaleImage(const GrayscaleImage& other) {
 GrayscaleImage::~GrayscaleImage() {
     // TODO: Your code goes here.
 
+    // Destructor: deallocate memory for the matrix.
     for (int i = 0; i < height; ++i) {
         delete[] data[i];
     }
 
     delete[] data;
 
-    // Destructor: deallocate memory for the matrix.
 }
 
 // Equality operator

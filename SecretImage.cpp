@@ -157,7 +157,6 @@ void SecretImage::save_to_file(const std::string& filename) {
         }
 
         file << std::endl;
-        // as the second line.
         file.close();
     }
 

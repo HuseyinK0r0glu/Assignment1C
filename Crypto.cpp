@@ -95,8 +95,6 @@ std::vector<int> Crypto::encrypt_message(const std::string& message) {
 
 // Embed LSB array into GrayscaleImage starting from the last bit of the image
 SecretImage Crypto::embed_LSBits(GrayscaleImage& image, const std::vector<int>& LSB_array) {
-        // ???????????????????????????????
-        //SecretImage secret_image(nullptr);
     // TODO: Your code goes here.
 
         int width = image.get_width();
