@@ -1,33 +1,34 @@
-Overview
-This project is a C++ application that processes grayscale images using various filters applied through matrices. It utilizes the stb_image library for image loading and manipulation, enabling efficient image processing capabilities.
+# ClearVision
 
-Features
-Load and save grayscale images using the stb_image library.
-Apply various image filters and operations, including:
-Mean Filter: mean <img> <kernel_size>
-Gaussian Smoothing: gauss <img> <kernel_size> <sigma>
-Unsharp Mask: unsharp <img> <kernel_size> <amount>
-Image Addition: add <img1> <img2>
-Image Subtraction: sub <img1> <img2>
-Image Comparison: equals <img1> <img2>
-Image Disguise: disguise <img>
-Image Reveal: reveal <dat>
-Message Embedding: enc <img> <message>
-Message Extraction: dec <img> <msg_len>
-Requirements
-C++ compiler (C++11 or later recommended)
-stb_image library (include stb_image.h and stb_image_write.h)
+## Project Overview
+ClearVision is a C++ application that processes grayscale images using various filters and operations applied through matrices. It utilizes the `stb_image` and `stb_image_write` libraries for image loading, manipulation, and saving. This project offers numerous image processing features such as smoothing, sharpening, image arithmetic, comparison, and even message encoding/decoding within images.
 
-Usage
-Run the application with one of the following command formats:
+## Features
+- **Load and Save Grayscale Images** using the `stb_image` library.
+- **Image Filters and Operations**:
+  - **Mean Filter**: Apply a mean filter to smooth the image using a specified kernel size.
+  - **Gaussian Smoothing**: Perform Gaussian smoothing on the image with a custom kernel size.
+  - **Unsharp Mask**: Apply an unsharp mask to sharpen the image.
+  - **Image Addition**: Combine two grayscale images pixel-by-pixel.
+  - **Image Subtraction**: Subtract one grayscale image from another pixel-by-pixel.
+  - **Image Comparison**: Check if two images are identical.
+  - **Image Disguise and Reveal**: Disguise and reveal images using a custom encoding.
+  - **Message Embedding (Encoding)**: Hide a secret message in an image.
+  - **Message Extraction (Decoding)**: Extract a hidden message from an image.
 
-./ClearVision mean <img> <kernel_size>
-./ClearVision gauss <img> <kernel_size> <sigma>
-./ClearVision unsharp <img> <kernel_size> <amount>
-./ClearVision add <img1> <img2>
-./ClearVision sub <img1> <img2>
-./ClearVision equals <img1> <img2>
-./ClearVision disguise <img>
-./ClearVision reveal <dat>
-./ClearVision enc <img> <message>
-./ClearVision dec <img> <msg_len>
+## Technologies Used
+- **C++**: Core language for implementing the application.
+- **stb_image**: A lightweight library for loading and writing images.
+- **C++ Standard Libraries**: For handling file I/O, image processing, and memory management.
+
+## Requirements
+- C++ compiler supporting **C++11** or later.
+- Include the following files in your project:
+  - `stb_image.h`
+  - `stb_image_write.h`
+
+## Setup and Installation
+
+1. **Clone the Repository**:
+   ```bash
+   git clone <repository_url>
